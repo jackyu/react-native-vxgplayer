@@ -1,5 +1,5 @@
 # react-native-vxgplayer ReadMe
-###Install 安装
+#Install 安装
 npm i react-native-vxgplayer --save
 
 ###Import 导入
