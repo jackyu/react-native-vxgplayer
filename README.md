@@ -1,9 +1,9 @@
 # react-native-vxgplayer ReadMe
-#Install 安装
+# Install 安装
 npm i react-native-vxgplayer --save
 
-###Import 导入
-#####Android Studio
+### Import 导入
+##### Android Studio
 * setting.gradle 
 
 ```
@@ -19,7 +19,7 @@ project(':react-native-vxgplayer').projectDir = new File(settingsDir, '../node_m
 
 `new VXGPlayerPackage()`
 
-###Usage 使用方法
+### Usage 使用方法
 
 `import VXGPlayer from 'react-native-vxgplayer'`
 
