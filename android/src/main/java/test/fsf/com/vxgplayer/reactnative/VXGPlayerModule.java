@@ -1,4 +1,4 @@
-package test.fsf.com.vxgplayer.reactnative;
+package test.fsf.com.vxgplayer.ReactNative;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;

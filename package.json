@@ -1,6 +1,6 @@
 {
   "name": "react-native-vxgplayer",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "description": "react-native android rtsp",
   "main": "index.js",
   "scripts": {

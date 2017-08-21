@@ -1,14 +1,19 @@
-package test.fsf.com.vxgplayer.reactnative;
+package test.fsf.com.vxgplayer.ReactNative;
 
 import android.os.Looper;
 import android.text.TextUtils;
 
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
 
 import java.nio.ByteBuffer;
+import java.util.Map;
+
+import javax.annotation.Nullable;
 
 import test.fsf.com.vxgplayer.util.SharedSettings;
 import veg.mediaplayer.sdk.MediaPlayer;
@@ -19,6 +24,7 @@ import veg.mediaplayer.sdk.MediaPlayer;
 
 public class VXGPlayerViewManager extends ViewGroupManager<MediaPlayer>{
     private static final String REACT_CLASS = "RCTVXGPlayer";
+    private static final int PLAYER_ACTION_STOP = 1;
     private ThemedReactContext mReactContext;
     private MediaPlayer mPlayer;
     public boolean mPanelIsVisible = true;
@@ -37,6 +43,10 @@ public class VXGPlayerViewManager extends ViewGroupManager<MediaPlayer>{
 
     @Override
     protected MediaPlayer createViewInstance(ThemedReactContext reactContext) {
+        if(mPlayer != null) {
+            mPlayer.Close();
+        }
+
         mReactContext = reactContext;
 
         return mPlayer;
@@ -45,36 +55,65 @@ public class VXGPlayerViewManager extends ViewGroupManager<MediaPlayer>{
     @ReactProp(name = "src")
     public void setSrc(MediaPlayer player, String src) {
         if(!TextUtils.isEmpty(src)) {
-            SharedSettings.getInstance(mReactContext).loadPrefSettings();
-            SharedSettings sett = SharedSettings.getInstance();
-            int connectionProtocol = sett.connectionProtocol;
-            int connectionDetectionTime = sett.connectionDetectionTime;
-            int connectionBufferingTime = sett.connectionBufferingTime;
+            startRending(src);
+        }
+    }
 
-            int decoderType = sett.decoderType;
-            int rendererType = sett.rendererType;
-            int rendererEnableColorVideo = sett.rendererEnableColorVideo;
-            int rendererAspectRatioMode = mPanelIsVisible ? 0 : sett.rendererAspectRatioMode;
-            int synchroEnable = sett.synchroEnable;
-            int synchroNeedDropVideoFrames = sett.synchroNeedDropVideoFrames;
+    /**
+     * 开始播放
+     *
+     * @param src
+     */
+    private void startRending(String src) {
+        SharedSettings.getInstance(mReactContext).loadPrefSettings();
+        SharedSettings sett = SharedSettings.getInstance();
+        int connectionProtocol = sett.connectionProtocol;
+        int connectionDetectionTime = sett.connectionDetectionTime;
+        int connectionBufferingTime = sett.connectionBufferingTime;
 
-            isFileUrl = isUrlFile(src);
+        int decoderType = sett.decoderType;
+        int rendererType = sett.rendererType;
+        int rendererEnableColorVideo = sett.rendererEnableColorVideo;
+        int rendererAspectRatioMode = mPanelIsVisible ? 0 : sett.rendererAspectRatioMode;
+        int synchroEnable = sett.synchroEnable;
+        int synchroNeedDropVideoFrames = sett.synchroNeedDropVideoFrames;
 
-            currentPlayerCallBacks = new PlayerCallBacks();
+        isFileUrl = isUrlFile(src);
 
-            mPlayer.Open(src,
-                    connectionProtocol,
-                    connectionDetectionTime,
-                    connectionBufferingTime,
-                    decoderType,
-                    rendererType,
-                    synchroEnable,
-                    synchroNeedDropVideoFrames,
-                    rendererEnableColorVideo,
-                    rendererAspectRatioMode,
-                    isFileUrl ? 1 : mPlayer.getConfig().getDataReceiveTimeout(),
-                    sett.decoderNumberOfCpuCores,
-                    currentPlayerCallBacks);
+        currentPlayerCallBacks = new PlayerCallBacks();
+
+        mPlayer.Open(src,
+                connectionProtocol,
+                connectionDetectionTime,
+                connectionBufferingTime,
+                decoderType,
+                rendererType,
+                synchroEnable,
+                synchroNeedDropVideoFrames,
+                rendererEnableColorVideo,
+                rendererAspectRatioMode,
+                isFileUrl ? 1 : mPlayer.getConfig().getDataReceiveTimeout(),
+                sett.decoderNumberOfCpuCores,
+                currentPlayerCallBacks);
+    }
+
+    @Nullable
+    @Override
+    public Map<String, Integer> getCommandsMap() {
+        return MapBuilder.of(
+                "stop", PLAYER_ACTION_STOP
+        );
+    }
+
+    @Override
+    public void receiveCommand(MediaPlayer root, int commandId, @Nullable ReadableArray args) {
+        switch(commandId){
+            case PLAYER_ACTION_STOP:
+                if(mPlayer!=null){
+                    mPlayer.Close();
+                    mPlayer.onDestroy();
+                }
+                break;
         }
     }
 

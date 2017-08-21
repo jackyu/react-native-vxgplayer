@@ -1,3 +1,3 @@
 import _VXGPlayer from './js/VXGPlayer';
 
-export const VXGPlayer = _VXGPlayer;
+export default VXGPlayer = _VXGPlayer;
