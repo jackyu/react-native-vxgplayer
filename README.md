@@ -1,6 +1,6 @@
 # react-native-vxgplayer
 # Install 安装
-npm i react-native-vxgplayer --save
+npm i react-native-vxgplayer@0.0.6 --save
 
 ### Import 导入
 ##### Android Studio
