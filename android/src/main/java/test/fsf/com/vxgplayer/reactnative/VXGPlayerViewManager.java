@@ -59,6 +59,13 @@ public class VXGPlayerViewManager extends ViewGroupManager<MediaPlayer>{
         }
     }
 
+    @ReactMethod
+    public void close() {
+        if(mPlayer != null) {
+            mPlayer.Close();
+        }
+    }
+
     /**
      * 开始播放
      *
