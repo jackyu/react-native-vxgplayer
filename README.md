@@ -6,7 +6,7 @@
 
 #### Install via yarn
 
-`yarn i react-native-vxgplayer@0.0.6 --save`
+`yarn add react-native-vxgplayer@0.0.6`
 
 
 #### Add dependency to `android/settings.gradle`
