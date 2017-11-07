@@ -40,7 +40,12 @@ import test.fsf.com.vxgplayer.ReactNative.*;  // <--- import
  }
 ```
 
-### Usage 使用方法
+#### API
+
+- `stop()`
+
+
+### Usage
 
 ```
 import React, { AppRegistry, StyleSheet, Component, View } from 'react-native'
@@ -52,11 +57,19 @@ class Example extends Component {
     super(props, context)
   }
 
+  componentWillUnmount() {
+    this.vxgPlayer.stop();
+  }
+
   render() {
 
     return (
       <View style={styles.container}>
-        <VXGPlayer style={styles.video} src={'rtsp://your.rtsp.url'} />
+        <VXGPlayer 
+          ref={(player)=>{this.vxgPlayer = player}}
+          style={styles.video} 
+          src={'rtsp://your.rtsp.url'} 
+        />
       </View>
     )
   }
