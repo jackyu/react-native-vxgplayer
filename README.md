@@ -2,11 +2,11 @@
 
 #### Install via npm
 
-`npm i react-native-vxgplayer@0.0.6 --save`
+`npm i react-native-vxgplayer@1.0.2 --save`
 
 #### Install via yarn
 
-`yarn add react-native-vxgplayer@0.0.6`
+`yarn add react-native-vxgplayer@1.0.2`
 
 
 #### Add dependency to `android/settings.gradle`
@@ -26,7 +26,7 @@ dependencies {
 }
 ```
 
-#### Register module in `MainActivity.java`
+#### Register module in `MainApplication.java`
 
 ```
 import test.fsf.com.vxgplayer.ReactNative.*;  // <--- import
